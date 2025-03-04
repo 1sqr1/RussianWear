@@ -111,7 +111,7 @@ h5 {
     width: 550px;
     height: auto;
     display: block;
-    margin-left: -120px; 
+    margin-left: -20px; 
     margin-right: auto;
     margin-top: 16px;
 }
@@ -295,7 +295,7 @@ h5 {
 .main-title {
     font-size: 36px;
     margin-bottom: 10px;
-    margin-top: 65px;
+    margin-top: 10px; /*65*/
 }
 
 .items {
@@ -309,10 +309,11 @@ h5 {
     row-gap: 20px; /* Увеличиваем расстояние между строками */
     margin: 0 auto; /* Центрируем контейнер */
     padding: 20px 0; /* Добавляем вертикальные отступы */
+    margin-bottom: 10px; /* Добавляем нижний отступ, чтобы пагинация не прилипала */
 }
 
 .sidebar {
-    margin-top: 70px;
+    margin-top: 10px;/* Уменьшено с 70px */
     }
 
 .llist {
@@ -345,11 +346,13 @@ h5 {
 
 .pagination {
     display: flex;
-    position: absolute;
-    bottom: 0%;
-    left: 46%;
+    position: static;
+    /* position: absolute; */
+    /* bottom: 0%;
+    left: 46%; */
     gap: 12px;
     justify-content: center;
+    margin-top: 10px;
 }
 
 .disabled {

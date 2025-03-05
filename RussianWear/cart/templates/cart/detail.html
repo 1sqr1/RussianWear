@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <form action="{% url "cart:cart_remove" product.id %}" method="post">
-                            <input type="submit" value="Remove" class="remove-btn">
+                            <input type="submit" value="Удалить" class="remove-btn">
                             {% csrf_token %}
                         </form>
                         <div class="cart-card-price">
@@ -46,12 +46,11 @@
         </div>
         <div class="cart-buttons d-flex gap-3">
             <a href="/shop" class="cart-btn">Продолжить покупки</a>
-            {% comment %} {% with cart_quantity=cart|length %}
-                {% if cart_quantity > 0 %} {% endcomment %}
-                    <a href= "#"  class="cart-btn" >Оформить заказ</a>
-                    {% comment %} <a href="{% url "orders:order_create" %}" class="cart-btn">Оформить заказ</a> {% endcomment %}
-                {% comment %} {% endif %}
-            {% endwith %} {% endcomment %}
+            {% with cart_quantity=cart|length %}
+                {% if cart_quantity > 0 %}
+                    <a href= "{% url "orders:order_create" %}"  class="cart-btn" >Оформить заказ</a>
+                {% endif %}
+            {% endwith %}
         </div>
     </section>
 {% endblock content %}

@@ -457,3 +457,9 @@ h5 {
 .add-to-cart-btn:hover {
     border: 1px solid black;
 }
+
+
+.orders {
+    flex: 2;
+    margin-left: 565px; /* Отступ между формой и заказами */
+}

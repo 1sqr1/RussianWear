@@ -1,6 +1,9 @@
 from django.contrib import admin
-from .models import Product, Category
-# Register your models here.
+from .models import Product, Category, Size
+
+@admin.register(Size)
+class SizeAdmin(admin.ModelAdmin):
+    list_display = ['name']
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -15,3 +18,4 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['available', 'created', 'updated']
     list_editable = ['price', 'available', 'discount']
     prepopulated_fields = {'slug': ('name',)}
+    filter_horizontal = ['sizes']  # Добавляем возможность выбора размеров

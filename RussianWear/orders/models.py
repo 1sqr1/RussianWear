@@ -1,13 +1,14 @@
 from django.db import models
-from main.models import Product
+from main.models import Product, Size  # Импортируем Size
 from users.models import User
-
 
 class Order(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.SET_DEFAULT,
                              blank=True, null=True, default=None)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    middle_name = models.CharField(max_length=50, blank=True, null=True)
+    telegram_id = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField()
     city = models.CharField(max_length=100)
     address = models.CharField(max_length=250)
@@ -15,7 +16,7 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
-
+    delivered = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created']
@@ -31,7 +32,6 @@ class Order(models.Model):
         return sum(item.get_cost() for item in self.items.all())
     
 
-
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,
                               related_name='items',
@@ -42,11 +42,13 @@ class OrderItem(models.Model):
     price = models.DecimalField(max_digits=10,
                                 decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
-
+    size = models.ForeignKey(Size, on_delete=models.SET_NULL, null=True, blank=True)  # Добавляем размер
 
     def __str__(self):
         return str(self.id)
     
 
     def get_cost(self):
+        if self.product.discount:
+            return round((self.price - (self.price * self.product.discount / 100)) * self.quantity, 2)
         return self.price * self.quantity

@@ -23,6 +23,12 @@
                         name="last_name" placeholder="Фамилия" required>
                     </div>
                     <div class="col-md-6 mb-3">
+                        <label for="id_middle_name" class="form-label form-stylereg">Отчество</label>
+                        <input type="text" class="form-control form-stylereg" id="id_middle_name"
+                        value="{% if form.middle_name.value %}{{ form.middle_name.value }}{% endif %}"
+                        name="middle_name" placeholder="Отчество">
+                    </div>
+                    <div class="col-md-6 mb-3">
                         <label for="id_username" class="form-label form-stylereg">Логин</label>
                         <input type="text" class="form-control form-stylereg" id="id_username"
                         value="{% if form.username.value %}{{ form.username.value }}{% endif %}"

@@ -34,6 +34,11 @@
                             name="last_name" placeholder="Фамилия" value="{{ form.last_name.value }}"
                             required>
                         </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="id_middle_name" class="form-label">Отчество</label>
+                            <input type="text" class="form-control form-styleprofile" id="id_middle_name"
+                            name="middle_name" placeholder="Отчество" value="{{ form.middle_name.value }}">
+                        </div>
                     </div>
                     <div class="box2">
                         <div class="col-md-12 mb-3">
@@ -57,7 +62,6 @@
                 
             </form>
 
-
             <div class="orders">
                 <h2 class="mb-2">Ваши заказы</h2>   
                 {% if orders %}
@@ -68,14 +72,35 @@
                                 <p class="order-desc">
                                     {% for item in order.items.all %}
                                         <div class="orders-carts">
-                                            <span class="dadad">Название: </span><a class="" href="{% url 'main:product_detail' item.product.slug %}">{{ item.product.name }}</a>
+                                            <span class="dadad">Название: </span>
+                                            <a class="" href="{% url 'main:product_detail' item.product.slug %}">{{ item.product.name }}</a>
                                             <br>
                                             <span class="dadad">Количество:</span> {{ item.quantity }},
                                             <span class="dadad">Цена: ₽ {{ item.price }}</span> <br>
-                                            <span class="dadad">Дата:</span>  {{ order.created }}
-                                            <br>
+                                            <span class="dadad">Размер:</span> {{ item.size.name|default:"OS" }} <br>  <!-- Отображаем размер -->
+                                            <span class="dadad">Сумма:</span> ₽ {{ item.get_cost }} <br>  <!-- Отображаем сумму с учетом скидки -->
+                                            <span class="dadad">Дата:</span> {{ order.created }} <br>
                                         </div>
                                     {% endfor %}
+                                    <p class="order-status">
+                                        <span class="dadad">Статус оплаты:</span>
+                                        {% if order.paid %}
+                                            <span class="text-success">Оплачен</span>
+                                        {% else %}
+                                            <span class="text-danger">Не оплачен</span>
+                                        {% endif %}
+                                    </p>
+                                    <p class="order-status">
+                                        <span class="dadad">Статус доставки:</span>
+                                        {% if order.delivered %}
+                                            <span class="text-success">Доставлен</span>
+                                        {% else %}
+                                            <span class="text-danger">Не доставлен</span>
+                                        {% endif %}
+                                    </p>
+                                    <p class="order-total">
+                                        <span class="dadad">Общая сумма заказа:</span> ₽ {{ order.get_total_cost }}
+                                    </p>
                                 </p>
                             </div>
                         {% endfor %}
@@ -86,4 +111,3 @@
             </div>
         </div>
 {% endblock content %}
-

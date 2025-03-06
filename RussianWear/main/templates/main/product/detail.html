@@ -25,6 +25,14 @@
             <form action="{% url "cart:cart_add" product.id %}" class="qform" method="post">
                 <div class="cart-form">
                     {{ cart_product_form }}
+                    {% if product.sizes.all %}
+                        <label for="id_size">Размер:</label>
+                        <select name="size" id="id_size">
+                            {% for size in product.sizes.all %}
+                                <option value="{{ size.id }}">{{ size.name }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
                     {% csrf_token %} 
                 </div>
                 <input type="submit" class="add-to-cart-btn" value="Добавить в корзину">

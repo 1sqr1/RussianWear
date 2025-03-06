@@ -1,13 +1,17 @@
 from django.db import models
 from django.urls import reverse
 
+class Size(models.Model):
+    name = models.CharField(max_length=10, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class Category(models.Model):
     name=models.CharField(max_length=20,
                           unique=True)
-    slug = models.SlugField(max_length=20, # Для url(New category преобразует в new-category )
+    slug = models.SlugField(max_length=20,
                             unique=True)
-
-
 
     class Meta:
         ordering = ['name']
@@ -15,21 +19,17 @@ class Category(models.Model):
         verbose_name = 'категория'
         verbose_name_plural= 'категории'
 
-
     def get_absolute_url(self):
         return reverse("main:product_list_by_category",
                         args=[self.slug])
         
-
-
-# Вывод категории
-        def __str__(self):  
-            return self.name
+    def __str__(self):  
+        return self.name
         
 class Product(models.Model):
     category = models.ForeignKey(Category,
                                  related_name="products",
-                                 on_delete=models.CASCADE) #при удалении категории удаляются и все продукты в ней
+                                 on_delete=models.CASCADE)
     name=models.CharField(max_length=50)
     slug = models.SlugField(max_length=50)
     image= models.ImageField(upload_to='products/%Y/%m/%d',
@@ -37,12 +37,14 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10,
                                 decimal_places=2)
-    available = models.BooleanField(default=True) #доступен товар или нет, по умолчанию в наличии
-    created = models.DateTimeField(auto_now_add=True) # авто создание даты товара
+    available = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     discount = models.DecimalField(default=0.00,
                                    max_digits=4,
                                    decimal_places=2)
+    sizes = models.ManyToManyField(Size, blank=True)  # Добавляем размеры
+
     class Meta:
         ordering = ['name']
         indexes = [
@@ -56,14 +58,11 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
-
     def get_absolute_url(self):
         return reverse("main:product_detail",
                        args=[self.slug])
     
-
     def sell_price(self):
         if self.discount:
             return round(self.price - self.price * self.discount / 100, 2)
         return self.price
-    

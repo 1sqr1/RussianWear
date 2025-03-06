@@ -13,7 +13,8 @@ def order_create(request): #передача продуктов из корзи�
                 OrderItem.objects.create(order=order,
                                         product=item['product'],
                                         price=item['price'],
-                                        quantity=item['quantity'])
+                                        quantity=item['quantity'],
+                                        size=item['size'])
             cart.clear()
             return render(request,
                           'order/created.html',

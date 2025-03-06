@@ -1,6 +1,6 @@
 from decimal import Decimal
 from django.conf import settings
-from main.models import Product
+from main.models import Product, Size
 
 class Cart:
     def __init__(self, request):
@@ -16,7 +16,7 @@ class Cart:
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0,
                                      'price': str(product.price),
-                                     'size': size}
+                                     'size': size.id if size else None}
         if override_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
@@ -41,6 +41,11 @@ class Cart:
         cart = self.cart.copy()
         for product in products:
             cart[str(product.id)]['product'] = product
+            size_id = cart[str(product.id)]['size']
+            if size_id:
+                cart[str(product.id)]['size'] = Size.objects.get(id=size_id)
+            else:
+                cart[str(product.id)]['size'] = None
         for item in cart.values():
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']

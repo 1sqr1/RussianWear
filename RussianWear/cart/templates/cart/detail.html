@@ -21,6 +21,9 @@
                             </div>
                             <div class="cart-card-q">
                                 <p>Количество: {{ item.quantity }}</p>
+                                {% if item.size %}
+                                    <p>Размер: {{ item.size.name }}</p>
+                                {% endif %}
                             </div>
                         </div>
                         <form action="{% url "cart:cart_remove" product.id %}" method="post">
@@ -29,10 +32,7 @@
                         </form>
                         <div class="cart-card-price">
                             {% if product.discount %}
-                                <div class="cart-discount d-flex gap-2">
-                                    <p class="line">₽ {{ product.price }}</p>
-                                    <p>₽ {{ product.sell_price }}</p>
-                                </div>
+                                <p>₽ {{ product.sell_price }}</p>
                             {% else %}
                                 <p class="price mt-3">₽ {{ product.price }}</p>
                             {% endif %}

@@ -14,16 +14,13 @@ def login(request):
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
-            user = auth.authenticate(username=username,
-                                     password=password)
+            user = auth.authenticate(username=username, password=password)
             if user:
                 auth.login(request, user)
-                return HttpResponseRedirect(reverse('main:product_list'))
-            
+                return HttpResponseRedirect(reverse('main:popular_list'))  # Здесь меняем
     else:
         form = UserLoginForm()
-
-    return render(request, 'users/login.html', {'form' : form})
+    return render(request, 'users/login.html', {'form': form})
 
 
 

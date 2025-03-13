@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'RussianWear.main',
-    'RussianWear.cart',
-    'RussianWear.users',
-    'RussianWear.orders',
+    'main',
+    'cart',
+    'users',
+    'orders',
 ]
 
 MIDDLEWARE = [

@@ -140,3 +140,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 CART_SESSION_ID = 'cart'
 
 AUTH_USER_MODEL = 'users.User'
+
+DJANGO_SETTINGS_MODULE = 'russian_wear.settings'
